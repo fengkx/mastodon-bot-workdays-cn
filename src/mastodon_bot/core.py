@@ -1,7 +1,13 @@
 import asyncio
+from typing import Optional
 from zoneinfo import ZoneInfo
 from datetime import datetime, date
 import textwrap
+
+from environs import Env
+from mastodon import Mastodon
+
+env = Env()
 
 
 from mastodon_bot.holidays import HolidayDataByYear
@@ -9,13 +15,19 @@ from mastodon_bot.holidays.date import DateWithWithData
 
 class Bot:
     holidayData: HolidayDataByYear
+    mastodon: Optional[Mastodon]
     @classmethod
-    async def init(cls):
+    async def init(cls, *, debug: bool = False, access_token: Optional[str], api_base_url: Optional[str], dry_run: bool = False):
         self = Bot()
         now = datetime.now(tz=ZoneInfo("Asia/Shanghai"))
         current_year = now.year
 
         self.holidayData = await HolidayDataByYear.create(current_year)
+        self.debug = debug
+        self.dry_run = dry_run
+        if api_base_url is not None and access_token is not None:
+            # Mastodon.create_app(client_name="working_days_cn", api_base_url=api_base_url)
+            self.mastodon = Mastodon(access_token=access_token, api_base_url=api_base_url)
         return self
     
     def make_toot(self) -> str:
@@ -28,11 +40,11 @@ class Bot:
     def make_workday_toot(self, d: DateWithWithData) -> str:
         next_holiday = self.holidayData.next_holiday(d.date)
         interval = next_holiday.date - d.date
-        remain_holiday_cnt = self.holidayData.remain_holidays(d.date)
+        remain_workday_cnt = self.holidayData.remain_workdays(d.date)
         
         result = f"""\
         今天是工作日，距离下一个假期还有{interval.days}天
-        {f"今年总共有{len(self.holidayData.holidays)}天假期，还剩{remain_holiday_cnt}天假期" if remain_holiday_cnt > 0 else "今年已经没有假期了！"}
+        {f"今年总共有{len(self.holidayData.workdays)}天工作日，算上今天还剩{remain_workday_cnt}天" if remain_workday_cnt > 0 else "今年的班就上到这了！"}
         """
         return textwrap.dedent(result)
 
@@ -43,15 +55,29 @@ class Bot:
 
         result = f"""\
         今天是{d.reason}，距离下一个工作日还有{interval.days}天
-        {f"今年总共有{len(self.holidayData.holidays)}天假期，还剩{remain_holiday_cnt}天假期" if remain_holiday_cnt > 0 else "今年已经没有假期了！"}
+        {f"今年总共有{len(self.holidayData.holidays)}天假期，算上今天还剩{remain_holiday_cnt}天假期" if remain_holiday_cnt > 0 else "今年已经没有假期了！"}
         """
         return textwrap.dedent(result)
+    def toot(self):
+        if self.mastodon is None: 
+            return
+        toot = self.make_toot()
+
+        if self.dry_run is False:
+            self.mastodon.status_post(status=toot,visibility="public" if self.debug else "unlist", language="zh")
+        print(f"{toot} | {datetime.now()}")
 
 async def run():
-    bot = await Bot.init()
-    print(bot.make_toot())
+    debug = env.bool("DEBUG", False)
+    api_base_url = env.str("MSTDN_API_BASE_URL", None)
+    access_token = env.str("MSTDN_ACCESS_TOKEN", None)
+    dry_run = env.bool("MSTDN_DRY_RUN", False)
+    bot = await Bot.init(debug=debug, api_base_url=api_base_url, access_token=access_token, dry_run=dry_run)
+    bot.toot()
     
 
 
 def main():
+    # Read .env into os.environ
+    env.read_env()
     asyncio.run(run())

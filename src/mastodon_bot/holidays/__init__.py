@@ -52,5 +52,9 @@ class HolidayDataByYear:
 
 
     def remain_holidays(self, d: date) -> int:
-        """不包含 |d| 今年还剩有多少天假"""
-        return len(list(filter(lambda holiday: holiday.date > d, self.holidays)))
+        """包含 |d| 今年还剩有多少天假"""
+        return len(list(filter(lambda holiday: holiday.date >= d, self.holidays)))
+    
+    def remain_workdays(self, d: date) -> int:
+        """包含 |d| 今年还剩有多少天工作日"""
+        return len(list(filter(lambda workday: workday.date >= d, self.workdays)))
