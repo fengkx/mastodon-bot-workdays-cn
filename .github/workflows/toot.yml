@@ -1,4 +1,4 @@
-name: CI
+name: Toot
 # Controls when the workflow will run
 on:
   # Triggers the workflow on push or pull request events but only for the "master" branch
@@ -6,26 +6,28 @@ on:
   schedule:
     # 每天北京时间早晨8点
     - cron: "0 0 * * *"
-  
+
 jobs:
   ci:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-python@v4
+      - uses: pdm-project/setup-pdm@v3
         with:
-          python-version: '3.11'
-      - name: Run image
-        uses: CfirTsabari/actions-pipx@v1
-      - name: Install beanprice
-        run: pipx install --verbose pdm
+          python-version: 3.11.3
+          cache: true
       - name: Install
         run: |
-          pdm install --prod
+          pdm install
       - name: Toot
         run: |
+          pdm venv activate
+          # FIXME
+          export PYTHONPATH="${PWD}/src:${PWD}/.venv/lib/python3.11/site-packages:"
+          echo $PYTHONPATH
+          python -c "import sys;print(sys.path)"
           python src/mastodon_bot
-        env: 
+        env:
           MSTDN_ACCESS_TOKEN: ${{ secrets.MSTDN_ACCESS_TOKEN }}
           MSTDN_API_BASE_URL: https://mastodon.online/
       - name: Commit files
