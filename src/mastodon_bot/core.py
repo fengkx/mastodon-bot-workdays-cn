@@ -1,3 +1,4 @@
+import os
 import asyncio
 from typing import Optional
 from zoneinfo import ZoneInfo
@@ -64,7 +65,9 @@ class Bot:
         toot = self.make_toot()
 
         if self.dry_run is False:
-            self.mastodon.status_post(status=toot,visibility="public" if self.debug else "unlist", language="zh")
+            self.mastodon.status_post(status=toot,visibility="public" if self.debug else "unlisted", language="zh")
+            with open(os.path.join(os.path.dirname(__file__) ,"../../auto/.last_sent_at"), "w") as f:
+                f.write(datetime.now(tz=ZoneInfo("Asia/Shanghai")).replace(microsecond=0).isoformat())
         print(f"{toot} | {datetime.now()}")
 
 async def run():
