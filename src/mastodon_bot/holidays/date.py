@@ -1,21 +1,24 @@
 import datetime
 from dataclasses import dataclass
 from datetime import date
-from typing import Optional
+from typing import Optional, TypeAlias, TYPE_CHECKING
 from functools import cached_property
 
 from mastodon_bot.holidays.model import Day
 
+if TYPE_CHECKING:
+    TDay: TypeAlias = Day
+    TDate: TypeAlias = date
+
+
 @dataclass
 class DateWithWithData:
     date: datetime.date
-    data: Optional[Day]
-    def __init__(self, year: int, month: int, day: int, data: Optional[date]) -> None:
+    data: Optional[TDay]
+
+    def __init__(self, year: int, month: int, day: int, data: Optional[TDay]) -> None:
         self.date = date(year=year, month=month, day=day)
         self.data = data
-    
-    def is_special(self) -> bool:
-        return self.data is not None
 
     @cached_property
     def is_off(self) -> bool:
@@ -26,8 +29,6 @@ class DateWithWithData:
 
     @cached_property
     def reason(self) -> str:
-        if not self.is_special():
+        if self.data is None:
             return f"{'休息日' if self.is_off else '工作日'}"
         return f"{self.data.name}{'假期' if self.is_off else '补班'}"
-    
-    

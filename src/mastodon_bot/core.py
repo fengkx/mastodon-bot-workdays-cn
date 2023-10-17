@@ -18,6 +18,9 @@ from mastodon_bot.holidays.date import DateWithWithData
 class Bot:
     holidayData: HolidayDataByYear
     mastodon: Optional[Mastodon]
+    debug: bool
+    dry_run: bool
+    check_last_sent: bool
 
     @classmethod
     async def init(
@@ -53,22 +56,24 @@ class Bot:
 
     def make_workday_toot(self, d: DateWithWithData) -> str:
         next_holiday = self.holidayData.next_holiday(d.date)
-        interval = next_holiday.date - d.date
+        if next_holiday is not None:
+            interval = next_holiday.date - d.date
         remain_workday_cnt = self.holidayData.remain_workdays(d.date)
 
         result = f"""\
-        今天是工作日，距离下一个假期还有{interval.days}天。
+        今天是工作日，{f"距离下一个假期还有{interval.days}天" if next_holiday is not None else "今年已经没有假期了"}。
         {f"今年总共有{len(self.holidayData.workdays)}天工作日，算上今天还剩{remain_workday_cnt}天。" if remain_workday_cnt > 0 else "今年的班就上到这了！"}
         """
         return textwrap.dedent(result)
 
     def make_holiday_toot(self, d: DateWithWithData) -> str:
         next_workday = self.holidayData.next_workday(d.date)
-        interval = next_workday.date - d.date
+        if next_workday is not None:
+            interval = next_workday.date - d.date
         remain_holiday_cnt = self.holidayData.remain_holidays(d.date)
 
         result = f"""\
-        今天是{d.reason}，距离下一个工作日还有{interval.days}天。
+        今天是{d.reason}，{f"距离下一个工作日还有{interval.days}天" if next_workday is not None else "今年已经没有工作日了"}。
         {f"今年总共有{len(self.holidayData.holidays)}天假期，算上今天还剩{remain_holiday_cnt}天假期。" if remain_holiday_cnt > 0 else "今年已经没有假期了！"}
         """
         return textwrap.dedent(result)
