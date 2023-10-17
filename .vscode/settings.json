@@ -1,3 +1,7 @@
 {
-  "python.analysis.extraPaths": ["./src/mastodon_bot/holidays"]
+  "python.analysis.extraPaths": ["./src/mastodon_bot/holidays"],
+  "[python]": {
+    "editor.defaultFormatter": "ms-python.black-formatter"
+  },
+  "python.formatting.provider": "none"
 }
