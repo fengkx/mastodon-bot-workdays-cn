@@ -25,7 +25,7 @@ jobs:
           # FIXME
           export PYTHONPATH="${PWD}/src:${PWD}/.venv/lib/python3.11/site-packages:"
           echo $PYTHONPATH
-          python -c "import sys;print(sys.path)"
+          pdm run python -c "import sys;print(sys.path)"
           python src/mastodon_bot
         env:
           MSTDN_ACCESS_TOKEN: ${{ secrets.MSTDN_ACCESS_TOKEN }}
