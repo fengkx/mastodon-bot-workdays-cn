@@ -1,0 +1,36 @@
+name: CI
+# Controls when the workflow will run
+on:
+  # Triggers the workflow on push or pull request events but only for the "master" branch
+  workflow_dispatch:
+  schedule:
+    # 每天北京时间早晨8点
+    - cron: "0 0 * * *"
+  
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+      - name: Run image
+        uses: CfirTsabari/actions-pipx@v1
+      - name: Install beanprice
+        run: pipx install --verbose pdm
+      - name: Install
+        run: |
+          pdm install --prod
+      - name: Toot
+        run: |
+          python src/mastodon_bot
+        env: 
+          MSTDN_ACCESS_TOKEN: ${{ secrets.MSTDN_ACCESS_TOKEN }}
+          MSTDN_API_BASE_URL: https://mastodon.online/
+      - name: Commit files
+        uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          # The commit message for the commit.
+          commit_message: "Update last sent"
+          commit_author: Author <actions@github.com>
