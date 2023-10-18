@@ -2,17 +2,17 @@ import os
 import asyncio
 from typing import Optional
 from zoneinfo import ZoneInfo
-from datetime import datetime, date
+from datetime import datetime
 import textwrap
 
 from environs import Env
 from mastodon import Mastodon  # type: ignore
 
-env = Env()
-
-
 from mastodon_bot.holidays import HolidayDataByYear
 from mastodon_bot.holidays.date import DateWithWithData
+
+
+env = Env()
 
 
 class Bot:
@@ -41,7 +41,6 @@ class Bot:
         self.dry_run = dry_run
         self.check_last_sent = check_last_sent
         if api_base_url is not None and access_token is not None:
-            # Mastodon.create_app(client_name="working_days_cn", api_base_url=api_base_url)
             self.mastodon = Mastodon(
                 access_token=access_token, api_base_url=api_base_url
             )

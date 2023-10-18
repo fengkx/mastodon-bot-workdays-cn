@@ -1,7 +1,7 @@
 from typing import Optional, TypeAlias, Union
 from functools import cached_property
 
-from mastodon_bot.holidays.get_holidays_data import *
+from mastodon_bot.holidays.get_holidays_data import get_holidays_data
 from mastodon_bot.holidays.date import DateWithWithData
 from mastodon_bot.holidays.model import Day
 from datetime import date, datetime
