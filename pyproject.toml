@@ -10,7 +10,7 @@ dependencies = [
     "Mastodon-py>=1.8.1",
     "environs>=9.5.0",
 ]
-requires-python = ">=3.9"
+requires-python = ">=3.11"
 readme = "README.md"
 license = { text = "MIT" }
 
@@ -22,4 +22,5 @@ dev = [
     "pytest-asyncio>=0.21.1",
     "types-python-dateutil>=2.8.19.14",
     "ruff>=0.1.0",
+    "black>=23.10.0",
 ]

@@ -1,14 +1,16 @@
 code-gen:
-	datamodel-codegen --url 'https://raw.githubusercontent.com/NateScarlet/holiday-cn/master/schema.json' --input-file-type jsonschema --output src/mastodon_bot/holidays/model.py --class-name HolidayData
+	pdm run datamodel-codegen --url 'https://raw.githubusercontent.com/NateScarlet/holiday-cn/master/schema.json' --input-file-type jsonschema --output src/mastodon_bot/holidays/model.py --class-name HolidayData
 
-all: code-gen
+all: code-gen lint
 
 mypy:
-	mypy src
+	pdm run mypy src
 
+balck:
+	pdm run black src
 ruff:
-	ruff src
+	pdm run ruff src --fix
 
-lint: mypy ruff
+lint: mypy black ruff
 
 .PHONY: all
