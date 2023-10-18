@@ -3,4 +3,12 @@ code-gen:
 
 all: code-gen
 
+mypy:
+	mypy src
+
+ruff:
+	ruff src
+
+lint: mypy ruff
+
 .PHONY: all
