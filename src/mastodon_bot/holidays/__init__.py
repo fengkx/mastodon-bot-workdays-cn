@@ -1,4 +1,4 @@
-from typing import Optional, TypeAlias, Union, TYPE_CHECKING
+from typing import Optional, TypeAlias, Union
 from functools import cached_property
 
 from mastodon_bot.holidays.get_holidays_data import *
@@ -7,9 +7,7 @@ from mastodon_bot.holidays.model import Day
 from datetime import date, datetime
 from dateutil import rrule
 
-
-if TYPE_CHECKING:
-    TDate: TypeAlias = Day
+TDate: TypeAlias = Day
 
 
 class HolidayDataByYear:

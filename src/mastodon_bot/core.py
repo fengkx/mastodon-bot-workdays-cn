@@ -6,7 +6,7 @@ from datetime import datetime, date
 import textwrap
 
 from environs import Env
-from mastodon import Mastodon
+from mastodon import Mastodon  # type: ignore
 
 env = Env()
 

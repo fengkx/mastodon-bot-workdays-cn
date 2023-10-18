@@ -1,7 +1,7 @@
 import datetime
 from dataclasses import dataclass
 from datetime import date
-from typing import Optional, TypeAlias, TYPE_CHECKING
+from typing import Optional, TypeAlias
 from functools import cached_property
 
 from mastodon_bot.holidays.model import Day
