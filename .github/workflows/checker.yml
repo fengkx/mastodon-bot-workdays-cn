@@ -17,9 +17,6 @@ jobs:
       - name: Install dependencies
         run: |
           pdm install -G:all
-      - name: Run linter
+      - name: Run linter and test
         run: |
-          make lint
-      - name: Run tests
-        run: |
-          make test
+          make -j8 lint test
