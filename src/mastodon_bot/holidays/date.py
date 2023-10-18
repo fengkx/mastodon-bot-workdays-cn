@@ -6,9 +6,8 @@ from functools import cached_property
 
 from mastodon_bot.holidays.model import Day
 
-if TYPE_CHECKING:
-    TDay: TypeAlias = Day
-    TDate: TypeAlias = date
+TDay: TypeAlias = Day
+TDate: TypeAlias = date
 
 
 @dataclass
