@@ -10,12 +10,12 @@ from pydantic import BaseModel, Field
 
 
 class Day(BaseModel):
-    name: str = Field(..., description='节日名称')
-    date: str = Field(..., description='ISO 8601 日期')
-    isOffDay: bool = Field(..., description='是否为休息日')
+    name: str = Field(..., description="节日名称")
+    date: str = Field(..., description="ISO 8601 日期")
+    isOffDay: bool = Field(..., description="是否为休息日")
 
 
 class HolidayData(BaseModel):
-    year: float = Field(..., description='年份')
-    papers: List[str] = Field(..., description='所用国务院文件网址列表')
+    year: float = Field(..., description="年份")
+    papers: List[str] = Field(..., description="所用国务院文件网址列表")
     days: List[Day]
