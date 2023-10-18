@@ -1,9 +1,11 @@
+from __future__ import annotations
 import os
 import asyncio
 from typing import Optional
 from zoneinfo import ZoneInfo
 from datetime import datetime
 import textwrap
+
 
 from environs import Env
 from mastodon import Mastodon  # type: ignore
@@ -27,11 +29,11 @@ class Bot:
         cls,
         *,
         debug: bool = False,
-        access_token: Optional[str],
-        api_base_url: Optional[str],
+        access_token: Optional[str] = None,
+        api_base_url: Optional[str] = None,
         dry_run: bool = False,
         check_last_sent=True,
-    ):
+    ) -> Bot:
         self = Bot()
         now = datetime.now(tz=ZoneInfo("Asia/Shanghai"))
         current_year = now.year
@@ -60,7 +62,7 @@ class Bot:
         remain_workday_cnt = self.holidayData.remain_workdays(d.date)
 
         result = f"""\
-        今天是工作日，{f"距离下一个假期还有{interval.days}天" if next_holiday is not None else "今年已经没有假期了"}。
+        今天是{d.reason}，{f"距离下一个假期还有{interval.days}天" if next_holiday is not None else "今年已经没有假期了"}。
         {f"今年总共有{len(self.holidayData.workdays)}天工作日，算上今天还剩{remain_workday_cnt}天。" if remain_workday_cnt > 0 else "今年的班就上到这了！"}
         """  # noqa: E501
         return textwrap.dedent(result)

@@ -13,4 +13,7 @@ ruff:
 
 lint: mypy black ruff
 
+test:
+	pdm run pytest tests
+
 .PHONY: all
