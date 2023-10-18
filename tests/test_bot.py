@@ -99,3 +99,23 @@ async def test_bot_4(mock4):
     assert "下一个假期还有1天" in txt
     assert "算上今天还剩1天" in txt
 
+
+mock5 = mock_datetime_now_by(
+    datetime(
+        year=2023,
+        month=12,
+        day=31,
+        hour=9,
+        minute=0,
+        second=0,
+        tzinfo=ZoneInfo("Asia/Shanghai"),
+    )
+)
+@pytest.mark.asyncio
+async def test_bot_4(mock5):
+    bot = await Bot.init(dry_run=True)
+    txt = bot.make_toot()
+    assert "今天是休息日" in txt
+    assert "今年已经没有工作日了" in txt
+    assert "算上今天还剩1天假期" in txt
+
