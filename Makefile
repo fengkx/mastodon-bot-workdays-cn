@@ -6,7 +6,7 @@ all: code-gen lint
 mypy:
 	pdm run mypy src
 
-balck:
+black:
 	pdm run black src
 ruff:
 	pdm run ruff src --fix
