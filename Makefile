@@ -14,6 +14,6 @@ ruff:
 lint: mypy black ruff
 
 test:
-	pdm run pytest tests
+	pdm run pytest tests -s --cov=mastodon_bot --cov-fail-under=80
 
 .PHONY: all
