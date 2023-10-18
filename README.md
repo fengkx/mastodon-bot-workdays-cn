@@ -1,5 +1,5 @@
 # 今年还有几天班要上
-一个每天提醒你今年有几天班要上（中国大陆地区法定假期），还剩几天假的<a rel="me" href="https://mastodon.online/@working_days_cn">Mastodon</a>机器人
+一个每天提醒你今年有几天班要上(中国大陆地区法定假期)，还剩几天假的 <a rel="me" href="https://mastodon.online/@working_days_cn">Mastodon</a> 机器人
 
 ## Development
 
@@ -7,7 +7,6 @@
 
 ```sh
 pdm install -G:all #安装依赖
-make lint #静态检查
-make test #执行测试
+make -j8 # 执行静态检查和测试
 ```
 
