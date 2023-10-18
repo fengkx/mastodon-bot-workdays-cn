@@ -62,7 +62,7 @@ class Bot:
         result = f"""\
         今天是工作日，{f"距离下一个假期还有{interval.days}天" if next_holiday is not None else "今年已经没有假期了"}。
         {f"今年总共有{len(self.holidayData.workdays)}天工作日，算上今天还剩{remain_workday_cnt}天。" if remain_workday_cnt > 0 else "今年的班就上到这了！"}
-        """
+        """  # noqa: E501
         return textwrap.dedent(result)
 
     def make_holiday_toot(self, d: DateWithWithData) -> str:
@@ -74,7 +74,7 @@ class Bot:
         result = f"""\
         今天是{d.reason}，{f"距离下一个工作日还有{interval.days}天" if next_workday is not None else "今年已经没有工作日了"}。
         {f"今年总共有{len(self.holidayData.holidays)}天假期，算上今天还剩{remain_holiday_cnt}天假期。" if remain_holiday_cnt > 0 else "今年已经没有假期了！"}
-        """
+        """  # noqa: E501
         return textwrap.dedent(result)
 
     def toot(self):
