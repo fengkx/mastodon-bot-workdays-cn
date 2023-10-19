@@ -15,7 +15,7 @@ mypy:
 
 .PHONY: black
 black:
-	pdm run black src
+	pdm run black src tests
 
 .PHONY: ruff
 ruff:

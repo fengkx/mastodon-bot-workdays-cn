@@ -29,6 +29,8 @@ mock1 = mock_datetime_now_by(
         tzinfo=ZoneInfo("Asia/Shanghai"),
     )
 )
+
+
 @pytest.mark.asyncio
 async def test_bot_1(mock1):
     bot = await Bot.init(dry_run=True)
@@ -49,6 +51,8 @@ mock2 = mock_datetime_now_by(
         tzinfo=ZoneInfo("Asia/Shanghai"),
     )
 )
+
+
 @pytest.mark.asyncio
 async def test_bot_2(mock2):
     bot = await Bot.init(dry_run=True)
@@ -56,7 +60,6 @@ async def test_bot_2(mock2):
     assert "下一个工作日还有6天" in txt
     assert "国庆节" in txt
     assert "算上今天还剩30天假期" in txt
-
 
 
 mock3 = mock_datetime_now_by(
@@ -70,6 +73,8 @@ mock3 = mock_datetime_now_by(
         tzinfo=ZoneInfo("Asia/Shanghai"),
     )
 )
+
+
 @pytest.mark.asyncio
 async def test_bot_3(mock3):
     bot = await Bot.init(dry_run=True)
@@ -77,7 +82,6 @@ async def test_bot_3(mock3):
     assert "国庆节补班" in txt
     assert "下一个假期还有7天" in txt
     assert "算上今天还剩62天" in txt
-
 
 
 mock4 = mock_datetime_now_by(
@@ -91,6 +95,8 @@ mock4 = mock_datetime_now_by(
         tzinfo=ZoneInfo("Asia/Shanghai"),
     )
 )
+
+
 @pytest.mark.asyncio
 async def test_bot_4(mock4):
     bot = await Bot.init(dry_run=True)
@@ -111,6 +117,8 @@ mock5 = mock_datetime_now_by(
         tzinfo=ZoneInfo("Asia/Shanghai"),
     )
 )
+
+
 @pytest.mark.asyncio
 async def test_bot_4(mock5):
     bot = await Bot.init(dry_run=True)
@@ -118,4 +126,3 @@ async def test_bot_4(mock5):
     assert "今天是休息日" in txt
     assert "今年已经没有工作日了" in txt
     assert "算上今天还剩1天假期" in txt
-
