@@ -107,7 +107,7 @@ class Bot:
                     return
                 self.mastodon.status_post(
                     status=toot,
-                    visibility="public" if self.debug else "unlisted",
+                    visibility="public" if not self.debug else "unlisted",
                     language="zh",
                 )
                 f.seek(0)
