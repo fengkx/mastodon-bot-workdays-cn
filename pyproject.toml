@@ -27,3 +27,13 @@ dev = [
     "pytest-mock>=3.11.1",
     "pytest-cov>=4.1.0",
 ]
+
+[tool.coverage.run]
+branch = true
+
+[tool.coverage.report]
+exclude_also = [
+	"if self\\.debug",
+	"if __name__ == .__main__.:",
+	"def main():"
+]
