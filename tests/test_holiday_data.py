@@ -43,16 +43,7 @@ async def test_holiday_data_2024():
           'len(public_holiday)', len(public_holiday)
           )
     
-    
-    true_holidays = public_holiday + rest_weekend - working_weekend
-    wrong_holidays = (holiday.holidays)
-    # print(true_holidays.difference(wrong_holidays))
-    print('len(true_holidays)',len(true_holidays), 'len(wrong_holidays)',len(wrong_holidays))
-    true_holidays = set(true_holidays)
-    wrong_holidays = set(wrong_holidays)
-    print('len(true_holidays)',len(true_holidays), 'len(wrong_holidays)',len(wrong_holidays))
-
-    # assert len(holiday.holidays) == (len(public_holiday) + len(rest_weekend))
+    # assert len(holiday.holidays) == len(rest_weekend) + len
 
     # # assert len(holiday.workdays) == 243
 
