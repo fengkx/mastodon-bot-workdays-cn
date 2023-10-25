@@ -24,7 +24,9 @@ class HolidayDataByYear:
         年份是按照国务院文件标题年份而不是日期年份，12 月份的日期可能会被下一年的文件影响，因此应检查两个文件。
         https://github.com/NateScarlet/holiday-cn#%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9
         """
-        next_year_data = await get_holidays_data(year+1)
+        next_year_data = await get_holidays_data(year + 1)
+        if current_year_data is None:
+            raise Exception(f"{year} 数据抓取失败")
         self._map = {day.date: day for day in current_year_data.days}
         if next_year_data is not None:
             for day in next_year_data.days:
