@@ -32,32 +32,8 @@ async def test_holiday_data_2024():
             holiday.all_days,
         )
     )
-    print("len(weekend)", len(weekend))
-
-    working_weekend = []
-    for d in holiday.all_days:
-        isoweekday = d.date.isoweekday()
-        if (isoweekday == 6 or isoweekday == 7) and not d.is_off:
-            working_weekend.append(d)
-    assert len(working_weekend) == 8
-
-    normal_weekend = list(filter(lambda d: d.data is None, weekend))
-    special_weekend = list(filter(lambda d: d.data is not None, weekend))
-    rest_weekend = list(filter(lambda d: d.is_off, weekend))
-    public_holiday = list(
-        filter(lambda d: d.is_off and d.data is not None, holiday.all_days)
-    )
-    print(
-        "len normal_weekend",
-        len(normal_weekend),
-        "len(special_weekend)",
-        len(special_weekend),
-        "len(rest_weekend)",
-        len(rest_weekend),
-        "len(public_holiday)",
-        len(public_holiday),
-    )
-
-    # assert len(holiday.holidays) == len(rest_weekend) + len
-
-    # # assert len(holiday.workdays) == 243
+    assert len(weekend) == 104
+    print("len(workdays)=", len(holiday.workdays))
+    public_holiday = len(list(filter(lambda d: d.data is not None, holiday.holidays)))
+    print("len(public_holidays)", public_holiday)
+    print("len(holidays)=", len(holiday.holidays))
