@@ -31,3 +31,6 @@ class DateWithWithData:
         if self.data is None:
             return f"{'休息日' if self.is_off else '工作日'}"
         return f"{self.data.name}{'假期' if self.is_off else '补班'}"
+
+    def __hash__(self):
+        return self.date.__hash__()
