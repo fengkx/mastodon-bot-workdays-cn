@@ -37,3 +37,5 @@ async def test_holiday_data_2024():
     public_holiday = len(list(filter(lambda d: d.data is not None, holiday.holidays)))
     print("len(public_holidays)", public_holiday)
     print("len(holidays)=", len(holiday.holidays))
+    assert len(holiday.holidays) == 115
+    assert len(holiday.workdays) == 251
