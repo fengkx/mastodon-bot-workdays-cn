@@ -3,16 +3,21 @@
 
 [metadata]
 groups = ["default", "dev"]
-cross_platform = true
-static_urls = false
-lock_version = "4.3"
-content_hash = "sha256:301d10a1b76740184a503233c8d32df6d4070cfa896cc0fe7a1e844d25c42d2a"
+strategy = ["cross_platform"]
+lock_version = "4.5.0"
+content_hash = "sha256:80799b33c1b7d6b1e5a2057eb45b41c1c92c390088da9c8753fdeade079fd780"
+
+[[metadata.targets]]
+requires_python = ">=3.11"
 
 [[package]]
 name = "annotated-types"
 version = "0.6.0"
 requires_python = ">=3.8"
 summary = "Reusable constraint types to use with typing.Annotated"
+dependencies = [
+    "typing-extensions>=4.0.0; python_version < \"3.9\"",
+]
 files = [
     {file = "annotated_types-0.6.0-py3-none-any.whl", hash = "sha256:0641064de18ba7a25dee8f96403ebc39113d0cb953a01429249d5c7564666a43"},
     {file = "annotated_types-0.6.0.tar.gz", hash = "sha256:563339e807e53ffd9c267e99fc6d9ea23eb8443c08f112651963e24e22f84a5d"},
@@ -24,6 +29,7 @@ version = "4.0.0"
 requires_python = ">=3.8"
 summary = "High level compatibility layer for multiple asynchronous event loop implementations"
 dependencies = [
+    "exceptiongroup>=1.0.2; python_version < \"3.11\"",
     "idna>=2.8",
     "sniffio>=1.1",
 ]
@@ -37,6 +43,9 @@ name = "argcomplete"
 version = "3.1.2"
 requires_python = ">=3.6"
 summary = "Bash tab completion for argparse"
+dependencies = [
+    "importlib-metadata<7,>=0.23; python_version < \"3.8\"",
+]
 files = [
     {file = "argcomplete-3.1.2-py3-none-any.whl", hash = "sha256:d97c036d12a752d1079f190bc1521c545b941fda89ad85d15afa909b4d1b9a99"},
     {file = "argcomplete-3.1.2.tar.gz", hash = "sha256:d5d1e5efd41435260b8f85673b74ea2e883affcbec9f4230c582689e8e78251b"},
@@ -47,6 +56,9 @@ name = "attrs"
 version = "23.1.0"
 requires_python = ">=3.7"
 summary = "Classes Without Boilerplate"
+dependencies = [
+    "importlib-metadata; python_version < \"3.8\"",
+]
 files = [
     {file = "attrs-23.1.0-py3-none-any.whl", hash = "sha256:1f28b4522cdc2fb4256ac1a020c78acf9cba2c6b461ccd2c126f3aa8e8335d04"},
     {file = "attrs-23.1.0.tar.gz", hash = "sha256:6279836d581513a26f1bf235f9acd333bc9115683f14f7e8fae46c98fc50e015"},
@@ -63,6 +75,8 @@ dependencies = [
     "packaging>=22.0",
     "pathspec>=0.9.0",
     "platformdirs>=2",
+    "tomli>=1.1.0; python_version < \"3.11\"",
+    "typing-extensions>=4.0.1; python_version < \"3.11\"",
 ]
 files = [
     {file = "black-23.10.0-cp311-cp311-macosx_10_16_arm64.whl", hash = "sha256:30b78ac9b54cf87bcb9910ee3d499d2bc893afd52495066c49d9ee6b21eee06e"},
@@ -179,6 +193,7 @@ requires_python = ">=3.7"
 summary = "Composable command line interface toolkit"
 dependencies = [
     "colorama; platform_system == \"Windows\"",
+    "importlib-metadata; python_version < \"3.8\"",
 ]
 files = [
     {file = "click-8.1.7-py3-none-any.whl", hash = "sha256:ae74fb96c20a0277a1d615f1e4d73c8414f5a98db8b799a7931d1582f3390c28"},
@@ -233,6 +248,7 @@ requires_python = ">=3.8"
 summary = "Code coverage measurement for Python"
 dependencies = [
     "coverage==7.3.2",
+    "tomli; python_full_version <= \"3.11.0a6\"",
 ]
 files = [
     {file = "coverage-7.3.2-cp311-cp311-macosx_10_9_x86_64.whl", hash = "sha256:ac8c802fa29843a72d32ec56d0ca792ad15a302b28ca6203389afe21f8fa062c"},
@@ -275,7 +291,9 @@ dependencies = [
     "openapi-spec-validator<=0.5.7,>=0.2.8",
     "packaging",
     "prance>=0.18.2",
-    "pydantic[email]!=2.4.0,<3.0,>=1.10.0; python_version >= \"3.11\" and python_version < \"4.0\"",
+    "pydantic[email]!=2.4.0,<3.0,>=1.10.0; python_version ~= \"3.11\"",
+    "pydantic[email]!=2.4.0,<3.0,>=1.5.1; python_version < \"3.10\"",
+    "pydantic[email]!=2.4.0,<3.0,>=1.9.0; python_version >= \"3.10\" and python_version < \"3.11\"",
     "toml<1.0.0,>=0.10.0",
 ]
 files = [
@@ -357,6 +375,9 @@ name = "h11"
 version = "0.14.0"
 requires_python = ">=3.7"
 summary = "A pure-Python, bring-your-own-I/O implementation of HTTP/1.1"
+dependencies = [
+    "typing-extensions; python_version < \"3.8\"",
+]
 files = [
     {file = "h11-0.14.0-py3-none-any.whl", hash = "sha256:e3fe4ac4b851c468cc8363d500db52c2ead036020723024a109d37346efaa761"},
     {file = "h11-0.14.0.tar.gz", hash = "sha256:8f19fbbe99e72420ff35c00b27a34cb9937e902a8b810e2c88300c6f0a3b699d"},
@@ -454,7 +475,11 @@ requires_python = ">=3.7"
 summary = "An implementation of JSON Schema validation for Python"
 dependencies = [
     "attrs>=17.4.0",
+    "importlib-metadata; python_version < \"3.8\"",
+    "importlib-resources>=1.4.0; python_version < \"3.9\"",
+    "pkgutil-resolve-name>=1.3.10; python_version < \"3.9\"",
     "pyrsistent!=0.17.0,!=0.17.1,!=0.17.2,>=0.14.0",
+    "typing-extensions; python_version < \"3.8\"",
 ]
 files = [
     {file = "jsonschema-4.17.3-py3-none-any.whl", hash = "sha256:a870ad254da1a8ca84b6a2905cac29d265f805acc57af304784962a2aa6508f6"},
@@ -471,6 +496,7 @@ dependencies = [
     "jsonschema<4.18.0,>=4.0.0",
     "pathable<0.5.0,>=0.4.1",
     "requests<3.0.0,>=2.31.0",
+    "typing-extensions<4.6.0; python_version < \"3.8\"",
 ]
 files = [
     {file = "jsonschema_spec-0.1.6-py3-none-any.whl", hash = "sha256:f2206d18c89d1824c1f775ba14ed039743b41a9167bd2c5bdb774b66b3ca0bbf"},
@@ -594,6 +620,7 @@ requires_python = ">=3.8"
 summary = "Optional static typing for Python"
 dependencies = [
     "mypy-extensions>=1.0.0",
+    "tomli>=1.1.0; python_version < \"3.11\"",
     "typing-extensions>=4.1.0",
 ]
 files = [
@@ -651,10 +678,12 @@ version = "0.5.7"
 requires_python = ">=3.7.0,<4.0.0"
 summary = "OpenAPI 2.0 (aka Swagger) and OpenAPI 3 spec validator"
 dependencies = [
+    "importlib-resources<6.0.0,>=5.8.0; python_version < \"3.9\"",
     "jsonschema-spec<0.2.0,>=0.1.1",
     "jsonschema<4.18.0,>=4.0.0",
     "lazy-object-proxy<2.0.0,>=1.7.1",
     "openapi-schema-validator<0.5.0,>=0.4.2",
+    "typing-extensions<5.0.0,>=4.5.0; python_version < \"3.8\"",
 ]
 files = [
     {file = "openapi_spec_validator-0.5.7-py3-none-any.whl", hash = "sha256:8712d2879db7692974ef89c47a3ebfc79436442921ec3a826ac0ce80cde8c549"},
@@ -696,6 +725,9 @@ name = "platformdirs"
 version = "3.11.0"
 requires_python = ">=3.7"
 summary = "A small Python package for determining appropriate platform-specific dirs, e.g. a \"user data dir\"."
+dependencies = [
+    "typing-extensions>=4.7.1; python_version < \"3.8\"",
+]
 files = [
     {file = "platformdirs-3.11.0-py3-none-any.whl", hash = "sha256:e9d171d00af68be50e9202731309c4e658fd8bc76f55c11c7dd760d023bda68e"},
     {file = "platformdirs-3.11.0.tar.gz", hash = "sha256:cf8ee52a3afdb965072dcc652433e0c7e3e40cf5ea1477cd4b3b1d2eb75495b3"},
@@ -892,9 +924,12 @@ requires_python = ">=3.7"
 summary = "pytest: simple powerful testing with Python"
 dependencies = [
     "colorama; sys_platform == \"win32\"",
+    "exceptiongroup>=1.0.0rc8; python_version < \"3.11\"",
+    "importlib-metadata>=0.12; python_version < \"3.8\"",
     "iniconfig",
     "packaging",
     "pluggy<2.0,>=0.12",
+    "tomli>=1.0.0; python_version < \"3.11\"",
 ]
 files = [
     {file = "pytest-7.4.2-py3-none-any.whl", hash = "sha256:1d881c6124e08ff0a1bb75ba3ec0bfd8b5354a01c194ddd5a0a870a48d99b002"},
@@ -908,6 +943,7 @@ requires_python = ">=3.7"
 summary = "Pytest support for asyncio"
 dependencies = [
     "pytest>=7.0.0",
+    "typing-extensions>=3.7.2; python_version < \"3.8\"",
 ]
 files = [
     {file = "pytest-asyncio-0.21.1.tar.gz", hash = "sha256:40a7eae6dded22c7b604986855ea48400ab15b069ae38116e8c01238e9eeb64d"},
