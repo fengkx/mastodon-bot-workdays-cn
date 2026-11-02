@@ -12,17 +12,19 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: pdm-project/setup-pdm@v4
+      - uses: astral-sh/setup-uv@v7
+        env:
+          UV_PYTHON_PREFERENCE: only-managed
         with:
-          python-version: 3.11.3
-          cache: true
+          python-version: "3.11"
+          activate-environment: true
+          cache-dependency-glob: pdm.lock
       - name: Install
         run: |
-          pdm install
+          uv tool install pdm
+          pdm sync --prod
       - name: Toot
         run: |
-          pdm venv activate
-          pdm run python -c "import sys;print(sys.path)"
           pdm run python src/mastodon_bot
         env:
           MSTDN_ACCESS_TOKEN: ${{ secrets.MSTDN_ACCESS_TOKEN }}
